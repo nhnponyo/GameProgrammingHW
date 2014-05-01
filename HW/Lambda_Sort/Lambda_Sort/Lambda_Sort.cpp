@@ -33,7 +33,7 @@ void CharacterSortByName()
 
 	charList.sort([](Character char1, Character char2) -> bool
 	{
-		bool result = char1.GetName().size() < char2.GetName().size();
+		bool result = char1.GetName() < char2.GetName();
 		
 		return result;
 	});
