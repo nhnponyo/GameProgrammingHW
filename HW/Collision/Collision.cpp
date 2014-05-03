@@ -25,6 +25,9 @@ INT WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR, INT )
 {
     UNREFERENCED_PARAMETER( hInst );
 
+	AllocConsole();
+	freopen("CONOUT$", "wt", stdout);
+
     WNDCLASSEX wc =
     {
         sizeof( WNDCLASSEX ), CS_CLASSDC, MsgProc, 0L, 0L,
@@ -86,6 +89,7 @@ INT WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR, INT )
 		}
 	};
 
+	FreeConsole();
     return 0;
 }
 

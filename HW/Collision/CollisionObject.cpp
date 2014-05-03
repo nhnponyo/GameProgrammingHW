@@ -1,5 +1,6 @@
 #include "CollisionObject.h"
 #include "D3DApp.h"
+#include <stdio.h>
 
 CollisionObject::CollisionObject()
 {
@@ -91,6 +92,9 @@ void CollisionObject::RenderBox()
 	D3DXMatrixMultiply(&matWorld, &matRot, &matMov);
 
 	D3DApp::GetInstance()->g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
+	printf("matMov[0] : %fl, %fl, %fl, %fl\n",matWorld._11,matWorld._12,matWorld._13,matMov._14);
+	printf("vTans : %fl %fl %fl \n", m_boundingBox.vTans[0], m_boundingBox.vTans[1], m_boundingBox.vTans[2]);
 
 	D3DXVec3TransformCoord(&m_boundingBox.maxPos, &m_boundingBox.maxPos, &matWorld);
 	D3DXVec3TransformCoord(&m_boundingBox.minPos, &m_boundingBox.minPos, &matWorld);

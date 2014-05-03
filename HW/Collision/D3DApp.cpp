@@ -1,5 +1,6 @@
 #include "D3DApp.h"
 #include "CollisionObject.h"
+#include <stdio.h>
 
 D3DApp::D3DApp()
 {
@@ -93,11 +94,13 @@ VOID D3DApp::Render()
 		//RenderBox
 		if (Object1)
 		{
+			printf("Object1\n");
 			Object1->RenderBox();
 			Object1->RenderText();
 		}
 		if (Object2)
 		{
+			printf("Object2\n");
 			Object2->RenderBox();
 		}
 
@@ -129,9 +132,9 @@ VOID D3DApp::Update()
 
 void D3DApp::MoveBox1(float x, float y, float z)
 {
- 	Object1->m_boundingBox.vTans[0] += x;
-	Object1->m_boundingBox.vTans[1] += y;
-	Object1->m_boundingBox.vTans[2] += z;
+	Object1->m_boundingBox.vTans[0] = Object1->m_boundingBox.vTans[0] + x;
+	Object1->m_boundingBox.vTans[1] = Object1->m_boundingBox.vTans[1] + y;
+	Object1->m_boundingBox.vTans[2] = Object1->m_boundingBox.vTans[2] + z;
 }
 
 void D3DApp::RotateBox1()

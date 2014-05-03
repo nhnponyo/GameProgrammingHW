@@ -47,7 +47,7 @@ public:
 	CollisionObject* Object1 = nullptr;
 	CollisionObject* Object2 = nullptr;
 
-	void MoveBox1(float x, float y, float z);
+	void MoveBox1(float x =0 , float y =0, float z=0);
 	void RotateBox1();
 	void ResetBox1Moving();
 
