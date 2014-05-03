@@ -73,6 +73,12 @@ INT WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR, INT )
 				case 68: //d
 					D3DApp::GetInstance()->MoveBox1(0.1f,0,0);
 					break;
+				case 87: //w
+					D3DApp::GetInstance()->MoveBox1(0,0,0.1f);
+					break;
+				case 83: //w
+					D3DApp::GetInstance()->MoveBox1(0, 0,-0.1f);
+					break;
 				case 32: //스페이스바
 					D3DApp::GetInstance()->RotateBox1();
 					break;

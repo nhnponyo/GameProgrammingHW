@@ -143,7 +143,6 @@ void D3DApp::MoveBox1(float x, float y, float z)
 	for (int i = 0; i < 8; ++i)
 	{
 		D3DXVec3TransformCoord(&Object1->m_vertices[i], &Object1->m_vertices[i], &matMov);
-		D3DXVec3TransformCoord(&Object1->m_vertices[i], &Object1->m_vertices[i], &matMov);
 	}
 }
 
@@ -151,13 +150,17 @@ void D3DApp::RotateBox1()
 {
 	Object1->m_boundingBox.RotationY += 0.1;
 
-	D3DXMATRIXA16 matRot;
+	D3DXMATRIXA16 matRot,matMov;
 	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixIdentity(&matMov);
+	D3DXMatrixTranslation(&matMov, -Object1->m_boundingBox.vTans[0], -Object1->m_boundingBox.vTans[1], -Object1->m_boundingBox.vTans[2]);
 	D3DXMatrixRotationY(&matRot, 0.1);
+	D3DXMatrixMultiply(&matRot, &matMov, &matRot);
+	D3DXMatrixTranslation(&matMov, Object1->m_boundingBox.vTans[0], Object1->m_boundingBox.vTans[1], Object1->m_boundingBox.vTans[2]);
+	D3DXMatrixMultiply(&matRot, &matRot, &matMov);
 
 	for (int i = 0; i < 8; ++i)
 	{
-		D3DXVec3TransformCoord(&Object1->m_vertices[i], &Object1->m_vertices[i], &matRot);
 		D3DXVec3TransformCoord(&Object1->m_vertices[i], &Object1->m_vertices[i], &matRot);
 	}
 }
