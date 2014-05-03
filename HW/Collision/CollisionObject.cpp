@@ -90,12 +90,12 @@ void CollisionObject::RenderBox()
 
 	D3DApp::GetInstance()->g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-	printf("matMov[0] : %fl, %fl, %fl, %fl\n", matWorld._11, matWorld._12, matWorld._13, matMov._14);
-	printf("matMov[1] : %fl, %fl, %fl, %fl\n", matWorld._21, matWorld._22, matWorld._23, matMov._24);
-	printf("matMov[2] : %fl, %fl, %fl, %fl\n", matWorld._31, matWorld._32, matWorld._33, matMov._34);
-	printf("matMov[3] : %fl, %fl, %fl, %fl\n", matWorld._41, matWorld._42, matWorld._43, matMov._44);
+	printf("matWorld[0] : %fl, %fl, %fl, %fl\n", matWorld._11, matWorld._12, matWorld._13, matMov._14);
+	printf("matWorld[1] : %fl, %fl, %fl, %fl\n", matWorld._21, matWorld._22, matWorld._23, matMov._24);
+	printf("matWorld[2] : %fl, %fl, %fl, %fl\n", matWorld._31, matWorld._32, matWorld._33, matMov._34);
+	printf("matWorld[3] : %fl, %fl, %fl, %fl\n", matWorld._41, matWorld._42, matWorld._43, matMov._44);
 
-	printf("vTans : %fl %fl %fl \n", m_boundingBox.vTans[0], m_boundingBox.vTans[1], m_boundingBox.vTans[2]);
+	//printf("vTans : %fl %fl %fl \n", m_boundingBox.vTans[0], m_boundingBox.vTans[1], m_boundingBox.vTans[2]);
 
 	SetBoundingBox();
 	//D3DXVec3TransformCoord(&m_boundingBox.maxPos, &m_boundingBox.maxPos, &matWorld);
@@ -147,6 +147,9 @@ void CollisionObject::SetBoundingBox()
 	m_boundingBox.minPos[0] = m_vertices[0][0];
 	m_boundingBox.minPos[1] = m_vertices[0][1];
 	m_boundingBox.minPos[2] = m_vertices[0][2];
+	m_boundingBox.maxPos[0] = m_vertices[0][0];
+	m_boundingBox.maxPos[1] = m_vertices[0][1];
+	m_boundingBox.maxPos[2] = m_vertices[0][2];
 
 	for (int i = 0; i < 8; ++i)
 	{
@@ -157,6 +160,8 @@ void CollisionObject::SetBoundingBox()
 		}
 	}
 
+	printf("minPos : %fl %fl %fl\n", m_boundingBox.minPos[0], m_boundingBox.minPos[1], m_boundingBox.minPos[2]);
+	printf("maxPos : %fl %fl %fl\n", m_boundingBox.maxPos[0], m_boundingBox.maxPos[1], m_boundingBox.maxPos[2]);
 }
 
 void CollisionObject::Release()
