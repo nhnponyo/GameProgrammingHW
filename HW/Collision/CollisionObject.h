@@ -26,11 +26,12 @@ public:
 
 	BoundingBox m_boundingBox;
 
+	D3DXVECTOR3 m_vertices[8];
 	LPDIRECT3DVERTEXBUFFER9 m_pVB = NULL;
 	LPDIRECT3DINDEXBUFFER9	m_pIB = NULL;
 	LPD3DXFONT m_pFont = NULL;
 
-	void SetBoundingBox(D3DXVECTOR3* Vertices);
+	void SetBoundingBox();
 
 	HRESULT InitVB();
 	HRESULT InitIB();

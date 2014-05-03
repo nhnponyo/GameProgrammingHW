@@ -14,17 +14,14 @@ CollisionObject::~CollisionObject()
 HRESULT CollisionObject::InitVB()
 {
 	// 박스의 8개 vertex를 만든다
-	D3DXVECTOR3 Vertices[8] =
-	{
-		{ - 1.f, + 1.f, + 1.f },		// v0
-		{ + 1.f, + 1.f, + 1.f },		// v1
-		{ + 1.f, + 1.f, - 1.f },		// v2
-		{ - 1.f, + 1.f, - 1.f },		// v3
-		{ - 1.f, - 1.f, + 1.f },		// v4
-		{ + 1.f, - 1.f, + 1.f },		// v5
-		{ + 1.f, - 1.f, - 1.f },		// v6
-		{ - 1.f, - 1.f, - 1.f },		// v7
-	};
+	m_vertices[0] = { -1.f, +1.f, +1.f };	// v0
+	m_vertices[1] = { +1.f, +1.f, +1.f };	// v1
+	m_vertices[2] = { +1.f, +1.f, -1.f };	// v2
+	m_vertices[3] = { -1.f, +1.f, -1.f };	// v3
+	m_vertices[4] = { -1.f, -1.f, +1.f };	// v4
+	m_vertices[5] = { +1.f, -1.f, +1.f };	// v5
+	m_vertices[6] = { +1.f, -1.f, -1.f };	// v6
+	m_vertices[7] = { -1.f, -1.f, -1.f };	// v7
 
 	if (FAILED(D3DApp::GetInstance()->g_pd3dDevice->CreateVertexBuffer(8 * sizeof(D3DXVECTOR3),
 		0, D3DFVF_CUSTOMVERTEX,
@@ -34,12 +31,12 @@ HRESULT CollisionObject::InitVB()
 	}
 
 	VOID* pVertices;
-	if (FAILED(m_pVB->Lock(0, sizeof(Vertices), (void**)&pVertices, 0)))
+	if (FAILED(m_pVB->Lock(0, sizeof(m_vertices), (void**)&pVertices, 0)))
 		return E_FAIL;
-	memcpy(pVertices, Vertices, sizeof(Vertices));
+	memcpy(pVertices, m_vertices, sizeof(m_vertices));
 	m_pVB->Unlock();
 
-	SetBoundingBox(Vertices);
+	SetBoundingBox();
 
 	return S_OK;
 }
@@ -100,8 +97,12 @@ void CollisionObject::RenderBox()
 
 	printf("vTans : %fl %fl %fl \n", m_boundingBox.vTans[0], m_boundingBox.vTans[1], m_boundingBox.vTans[2]);
 
-	D3DXVec3TransformCoord(&m_boundingBox.maxPos, &m_boundingBox.maxPos, &matWorld);
-	D3DXVec3TransformCoord(&m_boundingBox.minPos, &m_boundingBox.minPos, &matWorld);
+	for (int i = 0; i < 8; ++i)
+	{
+		D3DXVec3TransformCoord(&m_vertices[i], &m_boundingBox.maxPos, &matWorld);
+	}
+	//D3DXVec3TransformCoord(&m_boundingBox.maxPos, &m_boundingBox.maxPos, &matWorld);
+	//D3DXVec3TransformCoord(&m_boundingBox.minPos, &m_boundingBox.minPos, &matWorld);
 
 	/// 정점버퍼의 삼각형을 그린다.
 	/// 1. 정점정보가 담겨있는 정점버퍼를 출력 스트림으로 할당한다.
@@ -129,6 +130,7 @@ void CollisionObject::CheckAABB(BoundingBox targetBox)
 
 void CollisionObject::UpdateBox(BoundingBox targetBox)
 {
+	SetBoundingBox();
 	CheckAABB(targetBox);
 	CheckOBB();
 }
@@ -138,19 +140,19 @@ void CollisionObject::CheckOBB()
 
 }
 
-void CollisionObject::SetBoundingBox( D3DXVECTOR3* Vertices )
+void CollisionObject::SetBoundingBox()
 {
 	//random Set
-	m_boundingBox.minPos[0] = Vertices[0][0];
-	m_boundingBox.minPos[1] = Vertices[0][1];
-	m_boundingBox.minPos[2] = Vertices[0][2];
+	m_boundingBox.minPos[0] = m_vertices[0][0];
+	m_boundingBox.minPos[1] = m_vertices[0][1];
+	m_boundingBox.minPos[2] = m_vertices[0][2];
 
 	for (int i = 0; i < 8; ++i)
 	{
 		for (int j = 0; j < 3; ++j)
 		{
-			m_boundingBox.minPos[j] = __min(m_boundingBox.minPos[j], Vertices[i][j]);
-			m_boundingBox.maxPos[j] = __max(m_boundingBox.maxPos[j], Vertices[i][j]);
+			m_boundingBox.minPos[j] = __min(m_boundingBox.minPos[j], m_vertices[i][j]);
+			m_boundingBox.maxPos[j] = __max(m_boundingBox.maxPos[j], m_vertices[i][j]);
 		}
 	}
 
