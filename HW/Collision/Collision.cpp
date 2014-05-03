@@ -68,10 +68,13 @@ INT WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR, INT )
 				switch (static_cast<unsigned char>(msg.wParam))
 				{
 				case 65: //a
-					D3DApp::GetInstance()->MoveBox1(-0.1,0,0);
+					D3DApp::GetInstance()->MoveBox1(-0.1f,0,0);
 					break;
 				case 68: //d
-					D3DApp::GetInstance()->MoveBox1(0.1,0,0);
+					D3DApp::GetInstance()->MoveBox1(0.1f,0,0);
+					break;
+				case 32: //스페이스바
+					D3DApp::GetInstance()->RotateBox1();
 					break;
 				}
 			}

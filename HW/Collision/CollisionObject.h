@@ -4,8 +4,9 @@
 struct BoundingBox
 {
 	D3DXVECTOR3 vTans = {0.f, 0.f, 0.f};
-	float RotationY = 0;
-	D3DXVECTOR3 minPos, maxPos;
+	float RotationY = 0.f;
+	D3DXVECTOR3 minPos;
+	D3DXVECTOR3 maxPos;
 
 	D3DXVECTOR3 centerPos;
 	D3DXVECTOR3 axis[3];
@@ -35,8 +36,9 @@ public:
 	HRESULT InitIB();
 	HRESULT InitFont();
 
-	void InitObject() { InitVB(); InitIB(); }
+	void InitObject() { InitVB(); InitIB(); InitFont(); }
 	void RenderBox();
+	void RenderText();
 	void UpdateBox(BoundingBox targetBox);
 	void Release();
 

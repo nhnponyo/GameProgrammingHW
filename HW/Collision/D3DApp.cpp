@@ -94,6 +94,7 @@ VOID D3DApp::Render()
 		if (Object1)
 		{
 			Object1->RenderBox();
+			Object1->RenderText();
 		}
 		if (Object2)
 		{

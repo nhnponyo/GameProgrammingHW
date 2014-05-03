@@ -15,14 +15,14 @@ HRESULT CollisionObject::InitVB()
 	// 박스의 8개 vertex를 만든다
 	D3DXVECTOR3 Vertices[8] =
 	{
-		{ - 1, + 1, + 1 },		// v0
-		{ + 1, + 1, + 1 },		// v1
-		{ + 1, + 1, - 1 },		// v2
-		{ - 1, + 1, - 1 },		// v3
-		{ - 1, - 1, + 1 },		// v4
-		{ + 1, - 1, + 1 },		// v5
-		{ + 1, - 1, - 1 },		// v6
-		{ - 1, - 1, - 1 },		// v7
+		{ - 1.f, + 1.f, + 1.f },		// v0
+		{ + 1.f, + 1.f, + 1.f },		// v1
+		{ + 1.f, + 1.f, - 1.f },		// v2
+		{ - 1.f, + 1.f, - 1.f },		// v3
+		{ - 1.f, - 1.f, + 1.f },		// v4
+		{ + 1.f, - 1.f, + 1.f },		// v5
+		{ + 1.f, - 1.f, - 1.f },		// v6
+		{ - 1.f, - 1.f, - 1.f },		// v7
 	};
 
 	if (FAILED(D3DApp::GetInstance()->g_pd3dDevice->CreateVertexBuffer(8 * sizeof(D3DXVECTOR3),
@@ -114,6 +114,7 @@ void CollisionObject::CheckAABB(BoundingBox targetBox)
 		m_boundingBox.minPos[2] <= targetBox.maxPos[2] && m_boundingBox.maxPos[2] >= targetBox.minPos[2])
 	{
 		aabbCollide = true;
+		return;
 	}
 	aabbCollide = false;
 }
@@ -166,5 +167,28 @@ void CollisionObject::Release()
 		m_pFont->Release();
 		m_pFont = NULL;
 	}
+}
+
+HRESULT CollisionObject::InitFont()
+{
+	if( SUCCEEDED (D3DXCreateFont(D3DApp::GetInstance()->g_pd3dDevice, 15, 0, FW_NORMAL, 1, FALSE, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
+		L"돋음체", &m_pFont)))
+	{
+		return E_FAIL;
+	}
+	return S_OK;
+	;
+}
+
+void CollisionObject::RenderText()
+{
+	RECT rt;
+	SetRect(&rt, 10, 10, 0, 0);
+
+	if (aabbCollide)
+		m_pFont->DrawText(NULL, L"AABB: 충돌", -1, &rt, DT_NOCLIP, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	else
+		m_pFont->DrawText(NULL, L"AABB: 비충돌", -1, &rt, DT_NOCLIP, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 }
 
