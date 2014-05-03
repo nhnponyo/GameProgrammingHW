@@ -44,9 +44,6 @@ INT WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR, INT )
 	{
 		D3DApp::GetInstance()->InitObjects();
 
-		CollisionObject g_obj1;
-		CollisionObject g_obj2;
-
 		ShowWindow(hWnd, SW_SHOWDEFAULT);
 		UpdateWindow(hWnd);
 

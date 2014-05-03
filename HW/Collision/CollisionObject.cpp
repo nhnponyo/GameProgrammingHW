@@ -97,10 +97,7 @@ void CollisionObject::RenderBox()
 
 	printf("vTans : %fl %fl %fl \n", m_boundingBox.vTans[0], m_boundingBox.vTans[1], m_boundingBox.vTans[2]);
 
-	for (int i = 0; i < 8; ++i)
-	{
-		D3DXVec3TransformCoord(&m_vertices[i], &m_boundingBox.maxPos, &matWorld);
-	}
+	SetBoundingBox();
 	//D3DXVec3TransformCoord(&m_boundingBox.maxPos, &m_boundingBox.maxPos, &matWorld);
 	//D3DXVec3TransformCoord(&m_boundingBox.minPos, &m_boundingBox.minPos, &matWorld);
 
@@ -130,7 +127,6 @@ void CollisionObject::CheckAABB(BoundingBox targetBox)
 
 void CollisionObject::UpdateBox(BoundingBox targetBox)
 {
-	SetBoundingBox();
 	CheckAABB(targetBox);
 	CheckOBB();
 }
@@ -143,6 +139,11 @@ void CollisionObject::CheckOBB()
 void CollisionObject::SetBoundingBox()
 {
 	//random Set
+	for (int i = 0; i < 8; ++i)
+	{
+		printf("vertices[%d]: %fl, %fl, %fl \n", i, m_vertices[i][0], m_vertices[i][1], m_vertices[i][2]);
+	}
+
 	m_boundingBox.minPos[0] = m_vertices[0][0];
 	m_boundingBox.minPos[1] = m_vertices[0][1];
 	m_boundingBox.minPos[2] = m_vertices[0][2];
@@ -185,10 +186,9 @@ HRESULT CollisionObject::InitFont()
 		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
 		L"돋음체", &m_pFont)))
 	{
-		return E_FAIL;
+		return S_OK;
 	}
-	return S_OK;
-	;
+	return E_FAIL;
 }
 
 void CollisionObject::RenderText()
@@ -197,8 +197,8 @@ void CollisionObject::RenderText()
 	SetRect(&rt, 10, 10, 0, 0);
 
 	if (aabbCollide)
-		m_pFont->DrawText(NULL, L"AABB: 충돌", -1, &rt, DT_NOCLIP, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+		m_pFont->DrawText(NULL, L"AABB: 충돌", -1, &rt, DT_NOCLIP, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 	else
-		m_pFont->DrawText(NULL, L"AABB: 비충돌", -1, &rt, DT_NOCLIP, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+		m_pFont->DrawText(NULL, L"AABB: 비충돌", -1, &rt, DT_NOCLIP, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 }
 

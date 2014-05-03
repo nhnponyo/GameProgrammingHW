@@ -85,7 +85,7 @@ VOID D3DApp::SetupMatrices()
 VOID D3DApp::Render()
 {
 	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_XRGB(0, 100, 100), 1.0f, 0);
+		D3DCOLOR_XRGB(100, 100, 100), 1.0f, 0);
 
 	if (SUCCEEDED(g_pd3dDevice->BeginScene()))
 	{
@@ -135,11 +135,31 @@ void D3DApp::MoveBox1(float x, float y, float z)
 	Object1->m_boundingBox.vTans[0] = Object1->m_boundingBox.vTans[0] + x;
 	Object1->m_boundingBox.vTans[1] = Object1->m_boundingBox.vTans[1] + y;
 	Object1->m_boundingBox.vTans[2] = Object1->m_boundingBox.vTans[2] + z;
+
+	D3DXMATRIXA16 matMov;
+	D3DXMatrixIdentity(&matMov);
+	D3DXMatrixTranslation(&matMov, x, y, z);
+
+	for (int i = 0; i < 8; ++i)
+	{
+		D3DXVec3TransformCoord(&Object1->m_vertices[i], &Object1->m_vertices[i], &matMov);
+		D3DXVec3TransformCoord(&Object1->m_vertices[i], &Object1->m_vertices[i], &matMov);
+	}
 }
 
 void D3DApp::RotateBox1()
 {
 	Object1->m_boundingBox.RotationY += 0.1;
+
+	D3DXMATRIXA16 matRot;
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixRotationY(&matRot, 0.1);
+
+	for (int i = 0; i < 8; ++i)
+	{
+		D3DXVec3TransformCoord(&Object1->m_vertices[i], &Object1->m_vertices[i], &matRot);
+		D3DXVec3TransformCoord(&Object1->m_vertices[i], &Object1->m_vertices[i], &matRot);
+	}
 }
 
 void D3DApp::ResetBox1Moving()
