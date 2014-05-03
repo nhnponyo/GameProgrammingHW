@@ -49,17 +49,29 @@ VOID D3DApp::Cleanup()
 
 	if (g_pD3D != NULL)
 		g_pD3D->Release();
+
+	if (Object1)
+	{
+		Object1->Release();
+	}
+
+	if (Object2)
+	{
+		Object2->Release();
+	}
 }
 
 VOID D3DApp::SetupMatrices()
 {
 	D3DXMATRIXA16 matWorld;
-	D3DXMatrixRotationY(&matWorld, timeGetTime() / 1000.0f);
+	D3DXMatrixIdentity(&matWorld);
+	//D3DXMatrixRotationY(&matWorld, timeGetTime() / 1000.0f);
 	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
 	D3DXVECTOR3 vEyePt(0.0f, 3.0f, -5.0f);
 	D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
+
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
 	g_pd3dDevice->SetTransform(D3DTS_VIEW, &matView);
@@ -96,6 +108,37 @@ VOID D3DApp::Render()
 
 void D3DApp::InitObjects()
 {
-	Object1 = new CollisionObject(); 
+	Object1 = new CollisionObject();
+	Object1->InitObject();
 	Object2 = new CollisionObject();
+	Object2->InitObject();
+}
+
+VOID D3DApp::Update()
+{
+	if (Object1)
+	{
+		Object1->UpdateBox(Object2->m_boundingBox);
+	}
+	if (Object2)
+	{
+		Object2->UpdateBox(Object1->m_boundingBox);
+	}
+}
+
+void D3DApp::MoveBox1(float x, float y, float z)
+{
+ 	Object1->m_boundingBox.vTans[0] += x;
+	Object1->m_boundingBox.vTans[1] += y;
+	Object1->m_boundingBox.vTans[2] += z;
+}
+
+void D3DApp::RotateBox1()
+{
+	Object1->m_boundingBox.RotationY += 0.1;
+}
+
+void D3DApp::ResetBox1Moving()
+{
+
 }

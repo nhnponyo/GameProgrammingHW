@@ -15,23 +15,23 @@ public:
 	D3DApp();
 	~D3DApp();
 
-// 	static D3DApp* GetInstance() 
-// 	{
-// 		if (!pInstance)
-// 		{
-// 			pInstance = new D3DApp();
-// 		}
-// 		return pInstance;
-// 	}
-// 	
-// 	void Release()
-// 	{
-// 		if (pInstance)
-// 		{
-// 			delete pInstance;
-// 			pInstance = nullptr;
-// 		}
-// 	}
+	// 	static D3DApp* GetInstance() 
+	// 	{
+	// 		if (!pInstance)
+	// 		{
+	// 			pInstance = new D3DApp();
+	// 		}
+	// 		return pInstance;
+	// 	}
+	// 	
+	// 	void Release()
+	// 	{
+	// 		if (pInstance)
+	// 		{
+	// 			delete pInstance;
+	// 			pInstance = nullptr;
+	// 		}
+	// 	}
 
 	LPDIRECT3D9         g_pD3D = NULL;
 	LPDIRECT3DDEVICE9   g_pd3dDevice = NULL;
@@ -40,11 +40,16 @@ public:
 	VOID Cleanup();
 	VOID SetupMatrices();
 	VOID Render();
+	VOID Update();
 
 	void InitObjects();
 
 	CollisionObject* Object1 = nullptr;
 	CollisionObject* Object2 = nullptr;
+
+	void MoveBox1(float x, float y, float z);
+	void RotateBox1();
+	void ResetBox1Moving();
 
 private:
 	//static D3DApp* pInstance;

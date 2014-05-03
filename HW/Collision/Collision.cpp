@@ -39,6 +39,8 @@ INT WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR, INT )
 
 	if ( SUCCEEDED( D3DApp::GetInstance()->InitD3D(hWnd) ) )
 	{
+		D3DApp::GetInstance()->InitObjects();
+
 		CollisionObject g_obj1;
 		CollisionObject g_obj2;
 
@@ -47,6 +49,7 @@ INT WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR, INT )
 
 		MSG msg;
 		ZeroMemory(&msg, sizeof(msg));
+
 		while (msg.message != WM_QUIT)
 		{
 			if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
@@ -57,6 +60,25 @@ INT WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR, INT )
 			else
 			{
 				D3DApp::GetInstance()->Render();
+				D3DApp::GetInstance()->Update();
+			}
+
+			if (msg.message == WM_KEYDOWN)
+			{
+				switch (static_cast<unsigned char>(msg.wParam))
+				{
+				case 65: //a
+					D3DApp::GetInstance()->MoveBox1(-0.1,0,0);
+					break;
+				case 68: //d
+					D3DApp::GetInstance()->MoveBox1(0.1,0,0);
+					break;
+				}
+			}
+
+			if (msg.message == WM_KEYUP)
+			{
+				//D3DApp::GetInstance()->ResetBox1Moving();
 			}
 		}
 	};
