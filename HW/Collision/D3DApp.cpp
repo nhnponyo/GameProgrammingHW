@@ -45,12 +45,6 @@ HRESULT D3DApp::InitD3D(HWND hWnd)
 
 VOID D3DApp::Cleanup()
 {
-	if (g_pd3dDevice != NULL)
-		g_pd3dDevice->Release();
-
-	if (g_pD3D != NULL)
-		g_pD3D->Release();
-
 	if (Object1)
 	{
 		Object1->Release();
@@ -59,6 +53,16 @@ VOID D3DApp::Cleanup()
 	if (Object2)
 	{
 		Object2->Release();
+	}
+
+	if (g_pd3dDevice != NULL)
+	{
+		g_pd3dDevice->Release();
+	}
+
+	if (g_pD3D != NULL)
+	{
+		g_pD3D->Release();
 	}
 }
 
@@ -132,9 +136,13 @@ VOID D3DApp::Update()
 
 void D3DApp::MoveBox1(float x, float y, float z)
 {
-	Object1->m_boundingBox.vTans[0] = Object1->m_boundingBox.vTans[0] + x;
-	Object1->m_boundingBox.vTans[1] = Object1->m_boundingBox.vTans[1] + y;
-	Object1->m_boundingBox.vTans[2] = Object1->m_boundingBox.vTans[2] + z;
+	Object1->m_boundingBox.vTans[0] += x;
+	Object1->m_boundingBox.vTans[1] += y;
+	Object1->m_boundingBox.vTans[2] += z;
+
+	Object1->m_boundingBox.centerPos[0] += x;
+	Object1->m_boundingBox.centerPos[1] += y;
+	Object1->m_boundingBox.centerPos[2] += z;
 
 	D3DXMATRIXA16 matMov;
 	D3DXMatrixIdentity(&matMov);
@@ -163,9 +171,9 @@ void D3DApp::RotateBox1()
 	{
 		D3DXVec3TransformCoord(&Object1->m_vertices[i], &Object1->m_vertices[i], &matRot);
 	}
-}
 
-void D3DApp::ResetBox1Moving()
-{
-
+	for (int i = 0; i < 3; ++i)
+	{
+		D3DXVec3TransformNormal(&Object1->m_boundingBox.axis[i], &Object1->m_boundingBox.axis[i], &matRot);
+	}
 }

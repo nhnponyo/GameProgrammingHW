@@ -46,6 +46,6 @@ public:
 	bool	obbCollide = false;
 	bool	aabbCollide = false;
 
-	void	CheckOBB();
+	void	CheckOBB(BoundingBox targetBox);
 	void	CheckAABB(BoundingBox targetBox);
 };

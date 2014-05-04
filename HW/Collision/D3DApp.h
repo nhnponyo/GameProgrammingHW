@@ -49,7 +49,6 @@ public:
 
 	void MoveBox1(float x =0 , float y =0, float z=0);
 	void RotateBox1();
-	void ResetBox1Moving();
 
 private:
 	//static D3DApp* pInstance;
